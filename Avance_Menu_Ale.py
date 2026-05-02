@@ -11,6 +11,11 @@ en las semanas siguientes."""
 
 
 #=========================================================
+
+tokens = []
+
+#=========================================================
+
 #Menú que se despliega al iniciar el programa para que el usuario sepa cual opcion debe ingresar
 def menu():
     while True:
@@ -70,8 +75,53 @@ def menu_bitacora():
             print("Opcion invalida.")
 #===========================================================
  
+# Lee un archivo de tokens y los carga en la lista global.
+# Si un token ya existe, lo sobreescribe con el nuevo valor.
 def cargar_tokens():
-    pass
+    print("\n¿Como debe ser el archivo?")
+    print("- Debe ser un archivo .txt")
+    print("- Cada token debe estar en una linea separada")
+    print("- Cada linea debe tener el formato: palabra separador reemplazo")
+    print("- Ejemplo con '->' :    def -> funcion")
+    print("- Ejemplo con ',' :    def, funcion")
+    print("- Ejemplo con '=' :    def=funcion")
+    print("- El archivo debe estar en la misma carpeta que el programa\n")
+ 
+    nombre_archivo = input("Ingrese el nombre del archivo (ej: tokens.txt): ").strip()
+    separador = input("Ingrese el separador usado en el archivo (ej: ->, ,, =): ").strip()
+ 
+    archivo = open(nombre_archivo, "r")
+    lineas = archivo.readlines()
+    archivo.close()
+ 
+    for linea in lineas:
+        linea = linea.strip()
+ 
+        if linea == "":
+            continue
+ 
+        partes = linea.split(separador)
+ 
+        if len(partes) != 2:
+            print(f"Linea con formato incorrecto, se omite: '{linea}'")
+            continue
+ 
+        palabra = partes[0].strip()
+        reemplazo = partes[1].strip()
+ 
+        token_existente = False
+        for i in range(len(tokens)):
+            if tokens[i][0] == palabra:
+                print(f"Token '{palabra}' reescrito: '{tokens[i][1]}' -> '{reemplazo}'")
+                tokens[i] = (palabra, reemplazo)
+                token_existente = True
+                break
+ 
+        if not token_existente:
+            tokens.append((palabra, reemplazo))
+            print(f"Token '{palabra}' agregado.")
+ 
+    print(f"\nTokens cargados exitosamente desde '{nombre_archivo}'.")
  
 def mostrar_tokens():
     pass
