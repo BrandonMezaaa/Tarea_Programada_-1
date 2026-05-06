@@ -1,10 +1,6 @@
 #Avance #1 Alejandro Madrigal y Brandon Meza Tarea Programada #1
 
-"""Hoy Lunes leimos y entendimos el proyecto,
-además nos dividimos el trabajo y
-decidimos empezar creando el Proyecto en Git con el menú de inicio
-Brandon creó el menú y yo lo comenté y lo explique para evitar confundirnos
-en las semanas siguientes."""
+"""Hoy miercoles 6 de mayo implemente la funcion mostrar tokens (Brandon Meza)"""
 #Brandon no puede acceder al drive por lo que no a podido subir su avance
 
 
