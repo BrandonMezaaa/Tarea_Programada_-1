@@ -123,8 +123,16 @@ def cargar_tokens():
  
     print(f"\nTokens cargados exitosamente desde '{nombre_archivo}'.")
  
+#=========================================================
+# Muestra todos los tokens actualmente cargados en memoria
 def mostrar_tokens():
-    pass
+    if len(tokens) == 0:
+        print("\nNo hay tokens cargados.")
+        return
+ 
+    print("\nTokens cargados:")
+    for i in range(len(tokens)):
+        print(f"{tokens[i][0]} -> {tokens[i][1]}")
  
 def agregar_modificar_tokens():
     pass
