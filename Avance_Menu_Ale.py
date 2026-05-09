@@ -1,10 +1,11 @@
-#Avance #1 Alejandro Madrigal y Brandon Meza Tarea Programada #1
+# Elaborado por: Alejandro Madrigal y Brandon Meza
+# Fecha de creacion: 28/04/2026
+# Ultima modificacion: 09/05/2026
+# Version de Python: 3.11
 
-"""Hoy miercoles 6 de mayo implemente la funcion mostrar tokens (Brandon Meza)"""
-#Brandon no puede acceder al drive por lo que no a podido subir su avance
-
-
-
+"""
+Hoy converti todo el proyecto a codigo camello y lo documente de la manera de la cual se me fue indicada (Brandon Meza)
+"""
 
 #=========================================================
 
@@ -12,8 +13,13 @@ tokens = []
 
 #=========================================================
 
-#Menú que se despliega al iniciar el programa para que el usuario sepa cual opcion debe ingresar
 def menu():
+    """
+    Funcionalidad: Despliega el menu principal del programa y redirige
+                   al usuario a la funcion correspondiente segun su eleccion.
+    Entradas: Ninguna.
+    Salidas: Ninguna.
+    """
     while True:
         print("\n1. Cargar tokens")
         print("2. Mostrar tokens")
@@ -25,55 +31,66 @@ def menu():
         print("8. Bitacora del sistema")
         print("9. Salir")
 
-        #La variable "opcion" guarda el numero str que seleccionó el usuario
         opcion = input("\nSeleccione una opcion: ")
 
-        #Toma cada opcion posible y abre la funcion que corresponde
         if opcion == "1":
-            cargar_tokens()
+            cargarTokens()
         elif opcion == "2":
-            mostrar_tokens()
+            mostrarTokens()
         elif opcion == "3":
-            agregar_modificar_tokens()
+            agregarModificarTokens()
         elif opcion == "4":
-            guardar_tokens()
+            guardarTokens()
         elif opcion == "5":
-            traducir_codigo()
+            traducirCodigo()
         elif opcion == "6":
-            generar_csv()
+            generarCsv()
         elif opcion == "7":
-            generar_html()
+            generarHtml()
         elif opcion == "8":
-            menu_bitacora()
+            menuBitacora()
         elif opcion == "9":
             print("Saliendo...")
             break
         else:
             print("Opcion invalida.")
-            
-#========================================================
-#Submenu que se encarga de la bitacora, abre la funcion de la opción que selecionó el usuario.
-def menu_bitacora():
+
+#=========================================================
+
+def menuBitacora():
+    """
+    Funcionalidad: Despliega el submenu de bitacora y redirige al usuario
+                   a la funcion correspondiente segun su eleccion.
+    Entradas: Ninguna.
+    Salidas: Ninguna.
+    """
     while True:
         print("\nA. Acciones por dia escogido")
         print("B. Acciones con palabras clave")
         print("C. Salir del submenu")
- 
+
         opcion = input("\nSeleccione una opcion: ").upper()
- 
+
         if opcion == "A":
-            filtrar_por_dia()
+            filtrarPorDia()
         elif opcion == "B":
-            filtrar_por_palabra()
+            filtrarPorPalabra()
         elif opcion == "C":
             break
         else:
             print("Opcion invalida.")
-#===========================================================
- 
-# Lee un archivo de tokens y los carga en la lista global.
-# Si un token ya existe, lo sobreescribe con el nuevo valor.
-def cargar_tokens():
+
+#=========================================================
+
+def cargarTokens():
+    """
+    Funcionalidad: Lee un archivo .txt con tokens y los carga en la lista
+                   global. Si un token ya existe lo sobreescribe con el nuevo valor.
+    Entradas:
+        - nombreArchivo(str): Nombre del archivo .txt ingresado por el usuario.
+        - separador(str): Caracter separador usado en el archivo (ej: ->, ,, =).
+    Salidas: Ninguna. Modifica la lista global tokens directamente.
+    """
     print("\n¿Como debe ser el archivo?")
     print("- Debe ser un archivo .txt")
     print("- Cada token debe estar en una linea separada")
@@ -82,74 +99,81 @@ def cargar_tokens():
     print("- Ejemplo con ',' :    def, funcion")
     print("- Ejemplo con '=' :    def=funcion")
     print("- El archivo debe estar en la misma carpeta que el programa\n")
- 
-    nombre_archivo = input("Ingrese el nombre del archivo (ej: tokens.txt): ").strip()
+
+    nombreArchivo = input("Ingrese el nombre del archivo (ej: tokens.txt): ").strip()
     separador = input("Ingrese el separador usado en el archivo (ej: ->, ,, =): ").strip()
- 
-    archivo = open(nombre_archivo, "r")
+
+    archivo = open(nombreArchivo, "r")
     lineas = archivo.readlines()
     archivo.close()
- 
+
     for linea in lineas:
         linea = linea.strip()
- 
+
         if linea == "":
             continue
- 
+
         partes = linea.split(separador)
- 
+
         if len(partes) != 2:
             print(f"Linea con formato incorrecto, se omite: '{linea}'")
             continue
- 
+
         palabra = partes[0].strip()
         reemplazo = partes[1].strip()
- 
-        token_existente = False
+
+        tokenExistente = False
         for i in range(len(tokens)):
             if tokens[i][0] == palabra:
                 print(f"Token '{palabra}' reescrito: '{tokens[i][1]}' -> '{reemplazo}'")
                 tokens[i] = (palabra, reemplazo)
-                token_existente = True
+                tokenExistente = True
                 break
- 
-        if not token_existente:
+
+        if not tokenExistente:
             tokens.append((palabra, reemplazo))
             print(f"Token '{palabra}' agregado.")
- 
-    print(f"\nTokens cargados exitosamente desde '{nombre_archivo}'.")
- 
+
+    print(f"\nTokens cargados exitosamente desde '{nombreArchivo}'.")
+
 #=========================================================
-# Muestra todos los tokens actualmente cargados en memoria
-def mostrar_tokens():
+
+def mostrarTokens():
+    """
+    Funcionalidad: Muestra todos los tokens actualmente cargados en memoria.
+    Entradas: Ninguna.
+    Salidas: Ninguna. Imprime los tokens en consola.
+    """
     if len(tokens) == 0:
         print("\nNo hay tokens cargados.")
         return
- 
+
     print("\nTokens cargados:")
     for i in range(len(tokens)):
         print(f"{tokens[i][0]} -> {tokens[i][1]}")
- 
-def agregar_modificar_tokens():
+
+#=========================================================
+
+def agregarModificarTokens():
     pass
- 
-def guardar_tokens():
+
+def guardarTokens():
     pass
- 
-def traducir_codigo():
+
+def traducirCodigo():
     pass
- 
-def generar_csv():
+
+def generarCsv():
     pass
- 
-def generar_html():
+
+def generarHtml():
     pass
- 
-def filtrar_por_dia():
+
+def filtrarPorDia():
     pass
- 
-def filtrar_por_palabra():
+
+def filtrarPorPalabra():
     pass
- 
- 
+
+
 menu()
