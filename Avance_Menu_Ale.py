@@ -1,12 +1,10 @@
 # Elaborado por: Alejandro Madrigal y Brandon Meza
-# Fecha de creacion: 28/04/2026
-# Ultima modificacion: 09/05/2026
+# Fecha de creacion: 06/05/2026
+# Ultima modificacion: 10/05/2026
 # Version de Python: 3.11
-
 """
-Hoy converti todo el proyecto a codigo camello y lo documente de la manera de la cual se me fue indicada (Brandon Meza)
+Hoy agregue 2 funciones mas, voy un poco apretado de tiempo pero parra mañana y pasado espero lograr terminar todo (Brandon)
 """
-
 #=========================================================
 
 tokens = []
@@ -16,9 +14,9 @@ tokens = []
 def menu():
     """
     Funcionalidad: Despliega el menu principal del programa y redirige
-                   al usuario a la funcion correspondiente segun su eleccion.
-    Entradas: Ninguna.
-    Salidas: Ninguna.
+                   al usuario a la funcion correspondiente segun su eleccion
+    Entradas: Ninguna
+    Salidas: Ninguna
     """
     while True:
         print("\n1. Cargar tokens")
@@ -53,16 +51,16 @@ def menu():
             print("Saliendo...")
             break
         else:
-            print("Opcion invalida.")
+            print("Opcion invalida")
 
 #=========================================================
 
 def menuBitacora():
     """
     Funcionalidad: Despliega el submenu de bitacora y redirige al usuario
-                   a la funcion correspondiente segun su eleccion.
-    Entradas: Ninguna.
-    Salidas: Ninguna.
+                   a la funcion correspondiente segun su eleccion
+    Entradas: Ninguna
+    Salidas: Ninguna
     """
     while True:
         print("\nA. Acciones por dia escogido")
@@ -78,18 +76,18 @@ def menuBitacora():
         elif opcion == "C":
             break
         else:
-            print("Opcion invalida.")
+            print("Opcion invalida")
 
 #=========================================================
 
 def cargarTokens():
     """
     Funcionalidad: Lee un archivo .txt con tokens y los carga en la lista
-                   global. Si un token ya existe lo sobreescribe con el nuevo valor.
+                   global. Si un token ya existe lo sobreescribe con el nuevo valor
     Entradas:
         - nombreArchivo(str): Nombre del archivo .txt ingresado por el usuario.
-        - separador(str): Caracter separador usado en el archivo (ej: ->, ,, =).
-    Salidas: Ninguna. Modifica la lista global tokens directamente.
+        - separador(str): Caracter separador usado en el archivo (ej: ->, ,, =)
+    Salidas: Modifica la lista global tokens directamente
     """
     print("\n¿Como debe ser el archivo?")
     print("- Debe ser un archivo .txt")
@@ -140,9 +138,9 @@ def cargarTokens():
 
 def mostrarTokens():
     """
-    Funcionalidad: Muestra todos los tokens actualmente cargados en memoria.
-    Entradas: Ninguna.
-    Salidas: Ninguna. Imprime los tokens en consola.
+    Funcionalidad: Muestra todos los tokens actualmente cargados en memoria
+    Entradas: Ninguna
+    Salidas: Imprime los tokens en consola
     """
     if len(tokens) == 0:
         print("\nNo hay tokens cargados.")
@@ -155,10 +153,67 @@ def mostrarTokens():
 #=========================================================
 
 def agregarModificarTokens():
-    pass
+    """
+    Funcionalidad: Permite al usuario agregar tokens nuevos o modificar
+                   los que ya existen en la lista global
+    Entradas:
+        - separador(str): Caracter separador que usa el usuario (ej: ->, ,, =).
+        - linea(str): Cadena ingresada por el usuario con el formato palabra separador reemplazo
+    Salidas: Modifica la lista global tokens directamente
+    """
+    separador = input("Ingrese el separador que va a usar (ej: ->, ,, =): ").strip()
+    print("Ingrese los tokens uno por uno. Escriba 'listo' para terminar")
+
+    while True:
+        linea = input("Token: ").strip()
+
+        if linea.lower() == "listo":
+            break
+
+        partes = linea.split(separador)
+
+        if len(partes) != 2:
+            print("Formato incorrecto, intente de nuevo")
+            continue
+
+        palabra = partes[0].strip()
+        reemplazo = partes[1].strip()
+
+        tokenExistente = False
+        for i in range(len(tokens)):
+            if tokens[i][0] == palabra:
+                print(f"Token '{palabra}' actualizado: '{tokens[i][1]}' -> '{reemplazo}'")
+                tokens[i] = (palabra, reemplazo)
+                tokenExistente = True
+                break
+
+        if not tokenExistente:
+            tokens.append((palabra, reemplazo))
+            print(f"Token '{palabra}' agregado")
+
+#=========================================================
 
 def guardarTokens():
-    pass
+    """
+    Funcionalidad: Guarda los tokens actualmente en memoria en un archivo .txt nuevo
+    Entradas:
+        - nombreArchivo(str): Nombre del archivo donde se van a guardar los tokens
+        - separador(str): Caracter separador que se usara para guardar los tokens
+    Salidas: Crea un archivo .txt con los tokens en la carpeta del programa
+    """
+    if len(tokens) == 0:
+        print("\nNo hay tokens cargados para guardar")
+        return
+
+    nombreArchivo = input("Ingrese el nombre del archivo a guardar (ej: tokens.txt): ").strip()
+    separador = input("Ingrese el separador que desea usar (ej: ->, ,, =): ").strip()
+
+    archivo = open(nombreArchivo, "w")
+    for i in range(len(tokens)):
+        archivo.write(f"{tokens[i][0]} {separador} {tokens[i][1]}\n")
+    archivo.close()
+
+    print(f"\nTokens guardados exitosamente en '{nombreArchivo}'")
 
 def traducirCodigo():
     pass
@@ -177,3 +232,4 @@ def filtrarPorPalabra():
 
 
 menu()
+
