@@ -5,8 +5,12 @@
 """Ale :D
 Hoy lunes terminaré todas las funciones posibles para que solo falte completar la documentación"""
 #=========================================================
+import re
 
-tokens = []
+#========================================================
+#!!!!!!!!!!!!!!Tokens de prueba, quitar al final dejar []
+tokens = [('return', 'devuelva'), ('print', 'pinte'), ('def', 'funciÃ³n'), ('while', 'mientras')]
+
 
 #=========================================================
 
@@ -100,7 +104,11 @@ def cargarTokens():
     nombreArchivo = input("Ingrese el nombre del archivo (ej: tokens.txt): ").strip()
     separador = input("Ingrese el separador usado en el archivo (ej: ->, ,, =): ").strip()
 
-    archivo = open(nombreArchivo, "r")
+    try:
+        archivo = open(nombreArchivo, "r")
+    except:
+        print("\nEl archivo no existe, intentelo de nuevo con el formato nombre.txt o nombre.py y asegurese de que se encuentre en la misma carpeta que este programa.")
+        return
     lineas = archivo.readlines()
     archivo.close()
 
@@ -253,9 +261,61 @@ def traducirCodigo():
     - nombreArchivo(str): Nombre del archivo .txt o .py ingresado por el usuario que se va a traducir.
     - nombreArchSalida(str):
     Salidas:
-    - nuevoArchivo:
+    - nuevoArchivo: Archivo traducido
     """
+    cadenaFin=""
+    nombreArchivo = input("Ingrese el nombre del archivo (ej: tokens.txt): ").strip()
+    nombreArchSalida = input("Ingrese el nombre para el nuevo archivo ya traducido (nombre.py/txt): ").strip()
+    if not re.match("\w+[.](txt|py)", nombreArchSalida): #\w Uno o mas alfanumerico. "." txt o py
+        print("\nNombre de archivo inválido.")
+        return
 
+    try:
+        archivo = open(nombreArchivo, "r")
+    except:
+        print("\nEl archivo no existe, intentelo de nuevo con el formato nombre.txt o nombre.py y asegurese de que se encuentre en la misma carpeta que este programa.")
+        return
+    lineas = archivo.readlines()
+    archivo.close()
+    
+    
+    for linea in lineas:
+        
+        #r= no toma caracteres como \n o \t. \w+ uno o más caracteres alfanumericos
+        #| funciona como or. []=Grupo de caracteres. \s+ guarda los espacios en blanco originales
+        # ^ negado. \caracteres alfanumericos y \s espacios en blanco
+        partes = re.findall(r'\w+|\s+|[^\w\s]', linea)
+
+        nuevaLinea =""
+        contador=0
+        for parte in partes:
+            
+            for token in tokens:
+                
+                if token[0] == parte:
+                    partes[contador]=token[1]
+
+            nuevaLinea += partes[contador]
+            contador+=1
+
+        cadenaFin+= nuevaLinea + "\n"
+        print(cadenaFin)
+
+    try:
+        archivoPrueba = open(nombreArchSalida, "r")
+        archivoPrueba.close()
+        print("\nEl archivo ya existe, será modificado.")
+
+    except:
+        print("\nEl archivo no existe, se creará uno nuevo.")
+
+    nuevoArchivo = open(nombreArchSalida, "w")
+    nuevoArchivo.write(cadenaFin)
+    nuevoArchivo.close()
+
+    print("\nArchivo traducido exitosamente.")
+        
+        
 def generarCsv():
     pass
 
