@@ -24,13 +24,13 @@ except:
 #=========================================================
 
 def menu():
-    registrarBitacora("Inicio del programa, se dezpliega el menú.")
     """
     Funcionalidad: Despliega el menu principal del programa y redirige
-                   al usuario a la funcion correspondiente segun su eleccion
-    Entradas: Ninguna
-    Salidas: Ninguna
+                   al usuario a la funcion correspondiente segun su eleccion.
+    Entradas: Ninguna.
+    Salidas: Ninguna.
     """
+    registrarBitacora("Inicio del programa, se dezpliega el menú.")
     while True:
         print("\n1. Cargar tokens")
         print("2. Mostrar tokens")
@@ -407,8 +407,8 @@ def generarCsv():
     """
 
     if len(conteoTokens) == 0:
-    print("\nPrimero debe traducir un archivo.")
-    return
+        print("\nPrimero debe traducir un archivo.")
+        return
         
     nombreArchivo = input("Ingrese el nombre que desea para crear/reescribir el reporte CSV \nEjemplo 'reporte1': ").strip() + ".csv"
     archivo = open(nombreArchivo, "w")
@@ -438,8 +438,8 @@ def generarHtml():
     """
 
     if len(conteoTokens) == 0:
-    print("\nPrimero debe traducir un archivo.")
-    return
+        print("\nPrimero debe traducir un archivo.")
+        return
     
     tituloReporte=input("Ingrese el que desea mostrar en la pestaña donde se abra: ")
     registrarBitacora("El usuario indicó que el titulo de la pestaña en el reporte será: "+tituloReporte)#Registro bitacora
@@ -514,6 +514,15 @@ def generarHtml():
     
 
 def filtrarPorDia():
+    """
+    Funcionalidad: Filtra y muestra los registros de la bitacora que coincidan
+                   con la fecha ingresada por el usuario.
+    Entradas:
+        - año(str): Año de busqueda ingresado por el usuario en formato aaaa.
+        - mes(str): Mes de busqueda ingresado por el usuario en formato mm.
+        - dia(str): Dia de busqueda ingresado por el usuario en formato dd.
+    Salidas: Imprime en consola los registros encontrados y la cantidad total.
+    """
     año=input("Ingrese el año (aaaa): ").strip()
     mes=input("Ingrese el mes (mm): ").strip()
     dia=input("Ingrese el día (dd): ").strip()
@@ -532,6 +541,14 @@ def filtrarPorDia():
     print("Se encontraron ",cuenta," registros")
 
 def filtrarPorPalabra():
+    """
+    Funcionalidad: Filtra y muestra los registros de la bitacora que contengan
+                   la palabra clave ingresada por el usuario.
+    Entradas:
+        - palabraUsuario(str): Palabra clave ingresada por el usuario para buscar
+                               en las descripciones de la bitacora.
+    Salidas: Imprime en consola los registros encontrados y la cantidad total.
+    """
     palabraUsuario=input("Ingrese la palabra que desea encontrar entre los registros: ").lower().strip()
     cuenta=0
 
@@ -548,6 +565,13 @@ def filtrarPorPalabra():
 
 
 def registrarBitacora(descripcion):
+    """
+    Funcionalidad: Registra un evento en la bitacora con la fecha y hora actual
+                   y lo guarda inmediatamente en el archivo binario bitacora.txt.
+    Entradas:
+        - descripcion(str): Texto que describe la accion que se esta registrando.
+    Salidas: Ninguna. Modifica la lista global bitacora y actualiza el archivo bitacora.txt.
+    """
     fecha= datetime.now().strftime("%Y-%m-%d_%H:%M:%S")
     registro= (fecha, descripcion)
     bitacora.append(registro)
